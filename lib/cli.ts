@@ -67,6 +67,21 @@ program
     });
   });
 
+program
+  .command('convert-content-modal <path>')
+  .description('Replace {{#content-modal}} with {{#content-modal-v2}}.')
+  .option('--single-quote-mustache', 'single quotes in mustache expressions')
+  .option('--double-quote-mustache', 'double quotes in mustache expressions (default)')
+  .action((path, options) => {
+    const outputPath = path || 'app/templates';
+    const mustacheQuote = options.singleQuoteMustache ? "'" : '"';
+    rewrite(outputPath, {
+      formulas: ['convert-content-modal'],
+      outputPath,
+      quotes: { mustache: mustacheQuote },
+    });
+  });
+
 export default function init(args) {
   program.parse(args);
 }
